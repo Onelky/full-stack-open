@@ -36,15 +36,17 @@ const App = () => {
                 .catch((error) => console.error(error))
         }
         else{
-            service.update(existingPerson.id, newPerson)
-                .then((response) =>{
-                    setPersons(persons.map(person => person.id !== response.id ? person : response));
-                    showNotification(`Updated ${response.name}`)
-                })
-                .catch((error) =>{
-                    console.error(error);
-                })
+            if(window.confirm(`${existingPerson.name} is already added to phonebook, replace old number with a new one?`)) {
 
+                service.update(existingPerson.id, newPerson)
+                    .then((response) => {
+                        setPersons(persons.map(person => person.id !== response.id ? person : response));
+                        showNotification(`Updated ${response.name}`)
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    })
+            }
         }
     }
 
